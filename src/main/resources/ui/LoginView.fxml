@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wise.controller.LoginController">
+   <children>
+         <VBox layoutX="309.0" layoutY="190.0" prefHeight="276.0" prefWidth="651.0" spacing="50.0">
+            <children>
+               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <children>
+                     <Label alignment="TOP_LEFT" prefHeight="32.0" prefWidth="145.0" text="%UserId">
+                        <graphic>
+                           <MaterialDesignIconView glyphName="ACCOUNT" size="24" />
+                        </graphic>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     </Label>
+                     <JFXTextField fx:id="useridTf" labelFloat="true" prefHeight="48.0" prefWidth="200.0" promptText="%userPromptText">
+                     <font>
+                        <Font size="24.0" />
+                     </font></JFXTextField>
+                  </children>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="685.0" spacing="10.0">
+                  <children>
+                     <Label alignment="TOP_LEFT" prefHeight="32.0" prefWidth="145.0" text="%Pwd">
+                        <graphic>
+                           <MaterialDesignIconView glyphName="LOCK" size="24" />
+                        </graphic>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     </Label>
+                     <JFXPasswordField fx:id="pwdTf" labelFloat="true" prefHeight="48.0" prefWidth="200.0" promptText="%pwdPromptText">
+                     <font>
+                        <Font size="24.0" />
+                     </font></JFXPasswordField>
+                  </children>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <children>
+                     <Label prefHeight="32.0" prefWidth="145.0" text="%Language">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="SELECT" size="24" />
+                     </graphic>
+                  </Label>
+                     <JFXComboBox fx:id="langComboBox" labelFloat="true" prefHeight="48.0" prefWidth="200.0" promptText="%langPromptText" />
+                  </children>
+               </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Shop">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="FACTORY" size="24" />
+                     </graphic>
+                  </Label>
+                  <JFXRadioButton fx:id="yx8RadioBtn" selected="true" text="%Yixing8">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="fabToggleGP" />
+                     </toggleGroup>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="yx12RadioBtn" text="%Yixing12" toggleGroup="$fabToggleGP">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="tj12RadioBtn" text="%Tianjin12" toggleGroup="$fabToggleGP">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXRadioButton>
+               </children>
+            </HBox>
+               <ButtonBar prefHeight="33.0" prefWidth="507.0">
+                  <buttons>
+                     <JFXButton fx:id="okBtn" buttonType="RAISED" style="-fx-font-weight: normal; -fx-text-alignment: center;-fx-cursor: default;-fx-border-color: transparent;-fx-border-width: 1px;-fx-border-style: solid;-fx-background-insets: 0, 0, -1, 0;-fx-padding: 6px 12px 6px 12px;-fx-font-size: 14px;-fx-border-radius: 4px;-fx-background-radius: 4px;-fx-min-width: 80;-fx-text-fill: #fff;-fx-fill: #fff;-fx-background-color: #337ab7;-fx-border-color: #2e6da4;" text="%OK" />
+                     <JFXButton fx:id="cancelBtn" buttonType="RAISED" style="-fx-font-weight: normal;-fx-text-alignment: center;-fx-cursor: default;-fx-border-color: transparent;-fx-border-width: 1px;-fx-border-style: solid;-fx-background-insets: 0, 0, -1, 0;-fx-padding: 6px 12px 6px 12px;-fx-font-size: 14px;-fx-border-radius: 4px;-fx-background-radius: 4px;-fx-min-width: 80;-fx-text-fill: #333;-fx-fill: #333;-fx-background-color: #fff;-fx-border-color: #ccc;" text="%Cancel" />
+                     <JFXButton fx:id="changePwdBtn" buttonType="RAISED" style="-fx-font-weight: normal; -fx-text-alignment: center;-fx-cursor: default;-fx-border-color: transparent;-fx-border-width: 1px;-fx-border-style: solid;-fx-background-insets: 0, 0, -1, 0;-fx-padding: 6px 12px 6px 12px;-fx-font-size: 14px;-fx-border-radius: 4px;-fx-background-radius: 4px;-fx-min-width: 80;-fx-text-fill: #fff;-fx-fill: #fff;-fx-background-color: #5bc0de;-fx-border-color: #46b8da;" text="%ChangePassword" />
+                  </buttons>
+                  <VBox.margin>
+                     <Insets right="150.0" />
+                  </VBox.margin>
+               </ButtonBar>
+            </children>
+         </VBox>
+      <Text layoutX="289.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CIM统一登录平台">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="logo" fitHeight="230.0" fitWidth="230.0" layoutX="14.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/img/logo.png" />
+         </image>
+      </ImageView>
+      <Separator layoutX="259.0" orientation="VERTICAL" prefHeight="617.0" prefWidth="0.0" />
+   </children>
+</AnchorPane>
