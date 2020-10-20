@@ -53,7 +53,7 @@
       </VBox>
    </left>
    <bottom>
-      <VBox alignment="TOP_CENTER" prefHeight="464.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="336.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="23.0" prefWidth="1280.0" style="-fx-padding: .2em .6em .3em .6em;-fx-font-size: 75%;-fx-font-weight: bold;-fx-text-fill: #fff;-fx-fill: #fff;-fx-text-alignment: center;-fx-alignment: baseline-center;-fx-border-radius: .25em;-fx-background-radius: .25em;-fx-background-color: #5bc0de;-fx-font-size: 18px;" text="公告列表" />
             <JFXListView fx:id="noteListView" depth="2" maxHeight="440.0" maxWidth="1280.0" prefHeight="440.0" prefWidth="1280.0" verticalGap="10.0" VBox.vgrow="ALWAYS">
@@ -195,6 +195,48 @@
                      </graphic>
                   </JFXButton>
                   <Hyperlink fx:id="pmsVerLink" alignment="CENTER" layoutX="104.0" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: black;" text="ver" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="80.0" prefWidth="170.0">
+               <children>
+                  <JFXButton fx:id="fineReportBtn" buttonType="RAISED" contentDisplay="TOP" prefHeight="74.0" prefWidth="150.0" style="-fx-font-weight: normal; -fx-text-alignment: center;-fx-cursor: default;-fx-border-color: transparent;-fx-border-width: 1px;-fx-border-style: solid;-fx-background-insets: 0, 0, -1, 0;-fx-padding: 6px 12px 6px 12px;-fx-font-size: 14px;-fx-border-radius: 4px;-fx-background-radius: 4px;-fx-min-width: 80;-fx-text-fill: #fff;-fx-fill: #fff;-fx-background-color: #5bc0de;-fx-border-color: #46b8da;" text="FineReport">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="INTERNET_EXPLORER" size="24" />
+                     </graphic>
+                  </JFXButton>
+                  <Hyperlink fx:id="fineReportVerLink" alignment="CENTER" layoutX="104.0" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: black;" text="ver" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="80.0" prefWidth="170.0">
+               <children>
+                  <JFXButton fx:id="zhlxReportBtn" buttonType="RAISED" contentDisplay="TOP" prefHeight="74.0" prefWidth="150.0" style="-fx-font-weight: normal; -fx-text-alignment: center;-fx-cursor: default;-fx-border-color: transparent;-fx-border-width: 1px;-fx-border-style: solid;-fx-background-insets: 0, 0, -1, 0;-fx-padding: 6px 12px 6px 12px;-fx-font-size: 14px;-fx-border-radius: 4px;-fx-background-radius: 4px;-fx-min-width: 80;-fx-text-fill: #fff;-fx-fill: #fff;-fx-background-color: #5bc0de;-fx-border-color: #46b8da;" text="ZHLXReport">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="INTERNET_EXPLORER" size="24" />
+                     </graphic>
+                  </JFXButton>
+                  <Hyperlink fx:id="zhlxReportVerLink" alignment="CENTER" layoutX="104.0" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: black;" text="ver" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="80.0" prefWidth="170.0">
+               <children>
+                  <JFXButton fx:id="vidasBtn" buttonType="RAISED" contentDisplay="TOP" prefHeight="74.0" prefWidth="150.0" style="-fx-font-weight: normal; -fx-text-alignment: center;-fx-cursor: default;-fx-border-color: transparent;-fx-border-width: 1px;-fx-border-style: solid;-fx-background-insets: 0, 0, -1, 0;-fx-padding: 6px 12px 6px 12px;-fx-font-size: 14px;-fx-border-radius: 4px;-fx-background-radius: 4px;-fx-min-width: 80;-fx-text-fill: #fff;-fx-fill: #fff;-fx-background-color: #5bc0de;-fx-border-color: #46b8da;" text="VIDAS">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="INTERNET_EXPLORER" size="24" text="" />
+                     </graphic>
+                  </JFXButton>
+                  <Hyperlink fx:id="vidasVerLink" alignment="CENTER" layoutX="104.0" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: black;" text="ver" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>

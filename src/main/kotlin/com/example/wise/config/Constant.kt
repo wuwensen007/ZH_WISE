@@ -24,17 +24,17 @@ object Constant {
     /**
      * 本地WISE目录
      */
-    val LOCAL_WISE_BASE_PATH = """${System.getProperty("user.home")}${File.separator}WISE_ROOT${File.separator}${prop.getProperty("myconfig.basepath")}"""
+    val LOCAL_WISE_BASE_PATH = """${System.getProperty("user.home")}${File.separator}${prop.getProperty("myconfig.basepath")}"""
 
-//    val LOCAL_WISE_BASE_PATH = """D:${File.separator}WISE_ROOT${File.separator}${prop.getProperty("myconfig.basepath")}"""
+//    val LOCAL_WISE_BASE_PATH = """D:${File.separator}${prop.getProperty("myconfig.basepath")}"""
     /**
      *
      *
      * FTP上下载的文件临时目录
      */
-    val WISE_LOCAL_CSV_TEMP_DIR = """${System.getProperty("user.home")}${File.separator}WISE_ROOT${File.separator}${prop.getProperty("myconfig.basepath")}${File.separator}${prop.getProperty("myconfig.csvtempdir")}"""
+    val WISE_LOCAL_CSV_TEMP_DIR = """${System.getProperty("user.home")}${File.separator}${prop.getProperty("myconfig.basepath")}${File.separator}${prop.getProperty("myconfig.csvtempdir")}"""
 
-//    val WISE_LOCAL_CSV_TEMP_DIR = """D:${File.separator}WISE_ROOT${File.separator}${prop.getProperty("myconfig.basepath")}${File.separator}${prop.getProperty("myconfig.csvtempdir")}"""
+//    val WISE_LOCAL_CSV_TEMP_DIR = """D:${File.separator}${prop.getProperty("myconfig.basepath")}${File.separator}${prop.getProperty("myconfig.csvtempdir")}"""
     /**
      * "该目录下没有文件
      */
@@ -62,13 +62,11 @@ object Constant {
 
     val SM = prop.getProperty("myconfig.sm")
 
+    val VIDAS = prop.getProperty("myconfig.vidas")
+
     val ONCALL = prop.getProperty("myconfig.oncall")
 
-    val YX8CSVNAME = prop.getProperty("myconfig.yx8csvname")
-
-    val YX12CSVNAME = prop.getProperty("myconfig.yx12csvname")
-
-    val TJ12CSVNAME = prop.getProperty("myconfig.tj12csvname")
+    val CSVNAME = prop.getProperty("myconfig.csvname")
 
     val CSVTEMPDIR = prop.getProperty("myconfig.csvtempdir")
 

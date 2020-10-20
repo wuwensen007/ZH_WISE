@@ -1,5 +1,7 @@
 package com.example.wise.updatesystem
 
+import com.example.wise.config.Constant
+
 
 abstract class SubSystemVer {
 
@@ -7,19 +9,16 @@ abstract class SubSystemVer {
 
     abstract fun getSubSystemLocalCsvPath(): String
 
+    abstract fun getFtpCsvPath(): String
+
     abstract fun getSubSystemLocalTempCsvPath(): String
 
-    abstract fun getSubSystemCsvName(): String
+    fun getSubSystemCsvName(): String{
+        return Constant.CSVNAME
+    }
 
     abstract fun getLocalSubSystemBasePath(): String
 
-    abstract fun getCFMIndexUrl(): String
-
-    abstract fun getReportIndexUrl(): String
-
-    abstract fun getPMSIndexUrl(): String
-
     abstract fun getLocalSubSystemBackupBasePath(): String
 
-    abstract fun getLocalSubSystemHelpDocBasePath(): String
 }

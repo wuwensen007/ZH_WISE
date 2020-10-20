@@ -25,11 +25,11 @@ class DesktopSubSystem(systemName: String, systemVersion: SimpleStringProperty, 
 
 
     fun getFtpSystemPath(): String{
-        return """${factoryVer.getSubSystemFtpBasePath()}${File.separator}${systemName}"""
+        return """${factoryVer.getSubSystemFtpBasePath()}${File.separator}SetUp${File.separator}${systemName}"""
     }
 
     fun getLocalSystemPath(): String{
-        return """${factoryVer.getLocalSubSystemBasePath()}${File.separator}${systemName}"""
+        return """${factoryVer.getLocalSubSystemBasePath()}${File.separator}SetUp${File.separator}${systemName}"""
     }
 
     fun getLocalSystemBackupPath(): String{
@@ -40,11 +40,6 @@ class DesktopSubSystem(systemName: String, systemVersion: SimpleStringProperty, 
     fun openDocumentation(){
         Runtime.getRuntime().exec("cmd /c ${systemProp.getProperty("sopFileName")}")
     }
-
-    // 关闭程序(更新前使用)
-//    private fun destroy(){
-//        Runtime.getRuntime().exec("cmd /c $sopFileName")
-//    }
 
     // 更新版本
     fun updateSystem(){
@@ -63,7 +58,7 @@ class DesktopSubSystem(systemName: String, systemVersion: SimpleStringProperty, 
 
     fun haveNewVersion(): Boolean {
         // 从ftp下载指定csv文件
-        FtpUtil.downloadCSVFiles(csvFileName = factoryVer.getSubSystemCsvName())
+        FtpUtil.downloadCSVFiles(csvPath = factoryVer.getFtpCsvPath(), savePath = factoryVer.getSubSystemLocalTempCsvPath())
         // 获取远程csv中系统的信息
         val mesProductList: List<MESProduct> = CsvToBeanBuilder<MESProduct>(FileReader(factoryVer.getSubSystemLocalTempCsvPath())).withType(MESProduct::class.java).build().parse()
         val remoteSubSystemInfo = mesProductList.first { it.systemName == systemName }
@@ -98,7 +93,7 @@ class DesktopSubSystem(systemName: String, systemVersion: SimpleStringProperty, 
     fun updateLocalCSV(){
         logger.info("----------------------------开始更新本地CSV文件...")
         // 读本地CSV更新数据
-        val localMESProductList = CsvToBeanBuilder<MESProduct>(FileReader(factoryVer.getSubSystemLocalCsvPath())).withType(MESProduct::class.java).build().parse()
+        val localMESProductList = CsvToBeanBuilder<MESProduct>(FileReader(factoryVer.getSubSystemLocalTempCsvPath())).withType(MESProduct::class.java).build().parse()
         val newLocalMESProdList = mutableListOf<MESProduct>()
         localMESProductList.forEach {
             if (it.systemName == systemName){
@@ -108,7 +103,7 @@ class DesktopSubSystem(systemName: String, systemVersion: SimpleStringProperty, 
             }
         }
         // 提交更新数据
-        val writer: Writer = FileWriter("""${Constant.LOCAL_WISE_BASE_PATH}${File.separator}${Constant.YX8CSVNAME}""")
+        val writer: Writer = FileWriter(factoryVer.getSubSystemLocalCsvPath())
         val beanToCsv = StatefulBeanToCsvBuilder<MESProduct>(writer).build()
         beanToCsv.write(newLocalMESProdList)
         writer.close()

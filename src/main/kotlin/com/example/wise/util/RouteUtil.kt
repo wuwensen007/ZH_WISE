@@ -9,9 +9,8 @@ import java.util.*
 
 object RouteUtil {
 
-    fun load(fxmlPath: String?, title: String?, resizable: Boolean) {
+    fun load(stage: Stage,fxmlPath: String?, title: String?, resizable: Boolean) {
 
-        val newStage = Stage();
 
         val loader = FXMLLoader()
 
@@ -24,15 +23,15 @@ object RouteUtil {
 
         var root = loader.load<Parent>()
 
-        val decorator = JFXDecorator(newStage, root)
-        decorator.isCustomMaximize = false
-        val scene = Scene(decorator)
+//        val decorator = JFXDecorator(stage, root)
+//        decorator.isCustomMaximize = false
+        val scene = Scene(root)
         scene.stylesheets.addAll(this::class.java.getResource("/application.css").toExternalForm());
-        newStage.title = title
-        newStage.scene = scene
-        newStage.sizeToScene()
-        newStage.isResizable = resizable
-        newStage.show()
+        stage.title = title
+        stage.scene = scene
+        stage.sizeToScene()
+        stage.isResizable = resizable
+        stage.show()
     }
 
 }

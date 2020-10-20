@@ -1,11 +1,11 @@
 package com.example.wise
 
 import com.example.wise.announcement.Note
-import com.example.wise.updatesystem.DesktopSubSystem
-import com.example.wise.updatesystem.FAB
-import com.example.wise.updatesystem.SubSystem
-import com.example.wise.updatesystem.SystemInitHelper
-import com.jfoenix.controls.JFXDecorator
+import com.example.wise.factory.TJ12SubSystemFactory
+import com.example.wise.factory.YX12SubSystemFactory
+import com.example.wise.factory.YX8SubSystemFactory
+import com.example.wise.updatesystem.*
+import com.example.wise.util.MyJsonUtil
 import com.jfoenix.controls.JFXProgressBar
 import com.sun.javafx.application.LauncherImpl
 import javafx.application.Application
@@ -23,10 +23,10 @@ import javafx.geometry.Pos
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.Label
-import javafx.scene.control.ProgressBar
 import javafx.scene.layout.HBox
 import javafx.stage.Stage
 import java.util.*
+import java.util.concurrent.Executors
 
 
 class WiseApplication: Application() {
@@ -41,15 +41,7 @@ class WiseApplication: Application() {
 
 		var curNotes: SimpleObjectProperty<ObservableList<Note>> = SimpleObjectProperty(FXCollections.observableArrayList())
 
-		// 登录
-		fun login(){
-
-		}
-
-		// 登出
-		fun logout(){
-
-		}
+		lateinit var stage: Stage
 
 		// 是否有子系统要更新
 		fun haveSubSystemUpdate(): Boolean{
@@ -61,7 +53,6 @@ class WiseApplication: Application() {
 			}
 			return false
 		}
-
 
 		// 是否有子系统强制要更新
 		fun haveSubSystemForcedUpdate(): Boolean{
@@ -117,10 +108,17 @@ class WiseApplication: Application() {
 
 	}
 
-
 	override fun init() {
+
+		val exec = Executors.newSingleThreadExecutor()
+		exec.execute{
+			MyJsonUtil.initJsonFile(LocalUserConfig())
+		}
+		exec.shutdown()
+
+
 		val systemInitHelper = SystemInitHelper()
-		if (systemInitHelper.whetherToInitialize()){
+		if (SystemInitHelper.whetherToInitialize()){
 			systemInitHelper.progressProperty().addListener { _, _, newValue ->
 				// 更新进度
 				LauncherImpl.notifyPreloader(this, Preloader.ProgressNotification(newValue.toDouble()))
@@ -129,17 +127,19 @@ class WiseApplication: Application() {
 		}else{
 			// 更新进度
 			LauncherImpl.notifyPreloader(this, Preloader.ProgressNotification(1.0))
-			Thread.sleep(50)
+			// 初始化本地用户信息
+
+//			Thread.sleep(50)
 		}
 	}
-
 
 	override fun stop() {
 		Platform.exit()
 	}
 
-
 	override fun start(primaryStage: Stage?) {
+
+		stage = primaryStage!!
 
 		val loader = FXMLLoader()
 
@@ -152,11 +152,11 @@ class WiseApplication: Application() {
 
 		var root = loader.load<Parent>()
 
-		val decorator = JFXDecorator(primaryStage, root)
-		decorator.isCustomMaximize = false
-		val scene = Scene(decorator)
+//		val decorator = JFXDecorator(primaryStage, root)
+//		decorator.isCustomMaximize = false
+		val scene = Scene(root)
 
-		primaryStage?.apply {
+		primaryStage.apply {
 			title = "登录"
 			this.scene = scene
 			isResizable = false
@@ -164,12 +164,18 @@ class WiseApplication: Application() {
 			show()
 		}
 
+		primaryStage.setOnCloseRequest {
+			val userConfig = MyJsonUtil.readJsonFile()
+			userConfig.setFirstLogin(true)
+			MyJsonUtil.writeJsonFile(userConfig)
+			Platform.exit()
+		}
 	}
 }
 
 class WisePreloader: Preloader(){
 
-	var bar: JFXProgressBar? = null
+	var bar: JFXProgressBar = JFXProgressBar(0.0)
 	var stage: Stage? = null
 
 	var scene: Scene? = null
@@ -177,12 +183,11 @@ class WisePreloader: Preloader(){
 
 	override fun init() {
 
-		bar = JFXProgressBar(0.0)
 		val hbox = HBox()
 		hbox.alignment = Pos.CENTER
 		val label = Label("初始化资源中...")
 		val thePercentage = Label()
-		thePercentage.textProperty().bind(Bindings.concat(Bindings.format("%2.0f",bar?.progressProperty()?.multiply(100))).concat("%"))
+		thePercentage.textProperty().bind(Bindings.concat(Bindings.format("%2.0f", bar?.progressProperty()?.multiply(100))).concat("%"))
 		hbox.children.addAll(label, bar, thePercentage)
 		scene = Scene(hbox, 500.0, 150.0)
 	}
@@ -199,19 +204,9 @@ class WisePreloader: Preloader(){
 
 
 	override fun handleStateChangeNotification(evt: StateChangeNotification?) {
-		when (evt?.type) {
-			StateChangeNotification.Type.BEFORE_INIT -> {
-				println("BEFORE_INIT")
-			}
-			StateChangeNotification.Type.BEFORE_LOAD -> {
-				println("BEFORE_LOAD")
-			}
-			StateChangeNotification.Type.BEFORE_START -> {
-				println("BEFORE_START")
 
-				stage?.close()
-
-			}
+		if (evt!!.type == StateChangeNotification.Type.BEFORE_START){
+			stage?.close()
 		}
 	}
 
@@ -225,7 +220,10 @@ class WisePreloader: Preloader(){
 
 fun main(args: Array<String>) {
 	//Platform.setImplicitExit(false);
-	LauncherImpl.launchApplication(WiseApplication::class.java, WisePreloader::class.java, args)
-
+	if (SystemInitHelper.whetherToInitialize()){
+		LauncherImpl.launchApplication(WiseApplication::class.java, WisePreloader::class.java, args)
+	}else{
+		Application.launch(WiseApplication::class.java, *args)
+	}
 //	Application.launch(WiseApplication::class.java, *args)
 }

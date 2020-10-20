@@ -4,6 +4,7 @@ import com.example.wise.config.Constant
 import com.example.wise.config.Constant.DIR_CONTAINS_NO_FILE
 import com.example.wise.config.Constant.DIR_NOT_EXIST
 import com.example.wise.config.Constant.LOCAL_WISE_BASE_PATH
+import com.jfoenix.controls.base.IFXLabelFloatControl
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPReply
 import org.slf4j.LoggerFactory
@@ -132,12 +133,12 @@ class FtpUtil {
          * @param savePath 保存文件到本地的路径，例如：D:/test
          * @return 成功返回true，否则返回false
          */
-        fun downloadCSVFiles(savePath: String = Constant.WISE_LOCAL_CSV_TEMP_DIR, csvFileName: String) {
+        fun downloadCSVFiles(savePath: String,  csvPath: String) {
 
             // 登录
             login(ftpClient)
             try {
-                val path = changeEncoding(Constant.BASEPATH)
+                val path = changeEncoding(csvPath)
                 // 判断是否存在该目录
                 if (!ftpClient.changeWorkingDirectory(path)) {
                     logger.error("""${Constant.BASEPATH}$DIR_NOT_EXIST""")
@@ -148,12 +149,14 @@ class FtpUtil {
                 // 判断该目录下是否有文件
                 if (ftpClient.listFiles().isNotEmpty()){
 
-                    val ftpFile = ftpClient.listFiles().first { it.name == csvFileName }
-                    val file = File("$savePath${File.separator}${ftpFile.name}")
+                    val ftpFile = ftpClient.listFiles().filter { it.isFile }.first { it.name == Constant.CSVNAME }
+                    val file = File(savePath)
                     if (!file.parentFile.exists()){
-                        //创建文件
                         file.parentFile.mkdirs()
-                        file.createNewFile()
+                        if (!file.exists()){
+                            // 创建文件
+                            file.createNewFile()
+                        }
                     }
                     try {
                         FileOutputStream(file).use { os -> ftpClient.retrieveFile(ftpFile.name, os) }

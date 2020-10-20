@@ -11,39 +11,23 @@ object YX8SubSystemVer: SubSystemVer() {
     }
 
     override fun getSubSystemLocalCsvPath(): String{
-        return """${Constant.LOCAL_WISE_BASE_PATH}${File.separator}${Constant.YX8CSVNAME}"""
+        return """${Constant.LOCAL_WISE_BASE_PATH}${File.separator}${Constant.YX8PATH}${File.separator}${Constant.CSVNAME}"""
+    }
+
+    override fun getFtpCsvPath(): String {
+        return "${Constant.BASEPATH}${File.separator}${Constant.YX8PATH}"
     }
 
     override fun getSubSystemLocalTempCsvPath(): String {
-        return """${Constant.WISE_LOCAL_CSV_TEMP_DIR}${File.separator}${Constant.YX8CSVNAME}"""
+        return """${Constant.WISE_LOCAL_CSV_TEMP_DIR}${File.separator}${Constant.YX8PATH}${File.separator}${Constant.CSVNAME}"""
     }
 
     override fun getLocalSubSystemBasePath(): String{
         return """${Constant.LOCAL_WISE_BASE_PATH}${File.separator}${Constant.YX8PATH}"""
     }
 
-    override fun getCFMIndexUrl(): String {
-        return """http://10.210.66.6:9080/wfmwfview/file?p=web/index.html"""
-    }
-
-    override fun getReportIndexUrl(): String {
-        return """http://10.210.65.101:8080/RPT_Web/"""
-    }
-
-    override fun getPMSIndexUrl(): String {
-        return """http://10.210.66.6:9080/PMSClientWeb/"""
-    }
-
     override fun getLocalSubSystemBackupBasePath(): String {
         return "${Constant.LOCAL_WISE_BASE_PATH}${File.separator}${Constant.YX8BACKUPPATH}"
-    }
-
-    override fun getLocalSubSystemHelpDocBasePath(): String {
-        return "${Constant.LOCAL_WISE_BASE_PATH}${File.separator}${Constant.YX8PATH}"
-    }
-
-    override fun getSubSystemCsvName(): String {
-        return Constant.YX8CSVNAME
     }
 
     override fun toString(): String {
@@ -51,35 +35,35 @@ object YX8SubSystemVer: SubSystemVer() {
     }
 
     fun getLocalOnCallBasePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.ONCALL}"
+        return "${getLocalSubSystemBasePath()}${File.separator}SetUp${File.separator}${Constant.ONCALL}"
     }
 
     fun getLocalOPIBasePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.OPI}"
+        return "${getLocalSubSystemBasePath()}${File.separator}SetUp${File.separator}${Constant.OPI}"
     }
 
     fun getLocalSMBasePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.SM}"
+        return "${getLocalSubSystemBasePath()}${File.separator}SetUp${File.separator}${Constant.SM}"
     }
 
     fun getLocalSPCBasePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.SPC}"
+        return "${getLocalSubSystemBasePath()}${File.separator}SetUp${File.separator}${Constant.SPC}"
     }
 
     fun getLocalOnCallSOPFilePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.ONCALL}${File.separator}${Constant.LOCAL_HELP_DIR}${File.separator}ONCALL.doc"
+        return "${getLocalOnCallBasePath()}${File.separator}${Constant.LOCAL_HELP_DIR}"
     }
 
     fun getLocalOPISOPFilePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.OPI}${File.separator}${Constant.LOCAL_HELP_DIR}${File.separator}OPI.txt"
+        return "${getLocalOPIBasePath()}${File.separator}${Constant.LOCAL_HELP_DIR}"
     }
 
     fun getLocalSMSOPFilePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.SM}${File.separator}${Constant.LOCAL_HELP_DIR}${File.separator}SM.md"
+        return "${getLocalSMBasePath()}${File.separator}${Constant.LOCAL_HELP_DIR}"
     }
 
     fun getLocalSPCSOPFilePath(): String{
-        return "${getLocalSubSystemBasePath()}${File.separator}${Constant.SPC}${File.separator}${Constant.LOCAL_HELP_DIR}${File.separator}SPC.doc"
+        return "${getLocalSPCBasePath()}${File.separator}${Constant.LOCAL_HELP_DIR}"
     }
 
 }

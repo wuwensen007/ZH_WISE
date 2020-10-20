@@ -34,10 +34,11 @@ import javafx.util.StringConverter
 import org.controlsfx.control.TaskProgressView
 import java.net.URL
 import java.util.*
+import java.util.concurrent.Executors
 
 class IndexController: Initializable {
 
-    @FXML var opiBtn: JFXButton? = null
+    @FXML lateinit var opiBtn: JFXButton
 
     @FXML lateinit var smBtn: JFXButton
 
@@ -50,6 +51,12 @@ class IndexController: Initializable {
     @FXML lateinit var cfmBtn: JFXButton
 
     @FXML lateinit var pmsBtn: JFXButton
+
+    @FXML lateinit var fineReportBtn: JFXButton
+
+    @FXML lateinit var zhlxReportBtn: JFXButton
+
+    @FXML lateinit var vidasBtn: JFXButton
 
     @FXML lateinit var checkUpdateBtn: JFXButton
 
@@ -68,6 +75,12 @@ class IndexController: Initializable {
     @FXML lateinit var cfmVerLink: Hyperlink
 
     @FXML lateinit var pmsVerLink: Hyperlink
+
+    @FXML lateinit var fineReportVerLink: Hyperlink
+
+    @FXML lateinit var zhlxReportVerLink: Hyperlink
+
+    @FXML lateinit var vidasVerLink: Hyperlink
 
     @FXML lateinit var opiSopLink: Hyperlink
 
@@ -131,18 +144,34 @@ class IndexController: Initializable {
         WiseApplication.curFAB.unbind()
 
         // 数据绑定
-        WiseApplication.curSubSystems.bind(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX8)).then(SimpleObjectProperty(YX8SubSystemFactory().getSubSystems()))
-                .otherwise(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX12)).then(SimpleObjectProperty(YX12SubSystemFactory().getSubSystems()))
-                        .otherwise(SimpleObjectProperty(TJ12SubSystemFactory().getSubSystems()))))
+        Platform.runLater {
+            val exec = Executors.newSingleThreadExecutor()
+            exec.execute{
+                WiseApplication.curSubSystems.bind(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX8)).then(SimpleObjectProperty(YX8SubSystemFactory().getSubSystems()))
+                        .otherwise(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX12)).then(SimpleObjectProperty(YX12SubSystemFactory().getSubSystems()))
+                                .otherwise(SimpleObjectProperty(TJ12SubSystemFactory().getSubSystems()))))
 
-        WiseApplication.curDesktopSubSystems.bind(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX8)).then(SimpleObjectProperty(YX8SubSystemFactory().getDesktopSystems()))
-                .otherwise(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX12)).then(SimpleObjectProperty(YX12SubSystemFactory().getDesktopSystems()))
-                        .otherwise(SimpleObjectProperty(TJ12SubSystemFactory().getDesktopSystems()))))
+                WiseApplication.curDesktopSubSystems.bind(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX8)).then(SimpleObjectProperty(YX8SubSystemFactory().getDesktopSystems()))
+                        .otherwise(Bindings.`when`(fabComboBox.selectionModel.selectedItemProperty().isEqualTo(FAB.YX12)).then(SimpleObjectProperty(YX12SubSystemFactory().getDesktopSystems()))
+                                .otherwise(SimpleObjectProperty(TJ12SubSystemFactory().getDesktopSystems()))))
+            }
+            exec.shutdown()
+        }
+
+
+        WiseApplication.curDesktopSubSystems.addListener { _, _, newValue ->
+
+            versionUnBind()
+            versionBind()
+        }
+
+        // 版本解绑
+        versionUnBind()
+        // 版本绑定
+        versionBind()
 
         // 更新按钮状态
         updateBtnState()
-
-
 
 
         fabComboBox.selectionModel.selectedItemProperty().addListener { _, _, newV->
@@ -175,7 +204,7 @@ class IndexController: Initializable {
         if (WiseApplication.haveSubSystemForcedUpdate()){
 
             Platform.runLater {
-                val alert = JFXAlert<Any>(opiBtn?.scene?.window)
+                val alert = JFXAlert<Any>(opiBtn.scene?.window)
                 alert.initModality(Modality.APPLICATION_MODAL)
                 alert.isOverlayClose = false
                 val layout = JFXDialogLayout()
@@ -209,10 +238,21 @@ class IndexController: Initializable {
 
     }
 
+    private fun versionUnBind(){
+        // 解除绑定
+        opiVerLink.textProperty().unbind()
+        smVerLink.textProperty().unbind()
+        spcVerLink.textProperty().unbind()
+        oncallVerLink.textProperty().unbind()
+        cfmVerLink.textProperty().unbind()
+        reportVerLink.textProperty().unbind()
+        pmsVerLink.textProperty().unbind()
+        fineReportVerLink.textProperty().unbind()
+        zhlxReportVerLink.textProperty().unbind()
+        vidasVerLink.textProperty().unbind()
+    }
 
-
-    private fun setBtnPropBinding(){
-
+    private fun versionBind(){
         if (WiseApplication.haveSubSystem("OPI")){
             opiVerLink.textProperty().bind(WiseApplication.getSubSystemVersion("OPI"))
         }
@@ -234,22 +274,37 @@ class IndexController: Initializable {
         if (WiseApplication.haveSubSystem("PMS")){
             pmsVerLink.textProperty().bind(WiseApplication.getSubSystemVersion("PMS"))
         }
-
-
-        opiVerLink.visibleProperty().bind(opiBtn?.visibleProperty())
-        smVerLink.visibleProperty().bind(smBtn.visibleProperty())
-        spcVerLink.visibleProperty().bind(spcBtn.visibleProperty())
-        oncallVerLink.visibleProperty().bind(oncallBtn.visibleProperty())
-        cfmVerLink.visibleProperty().bind(cfmBtn.visibleProperty())
-        reportVerLink.visibleProperty().bind(reportBtn.visibleProperty())
-        pmsVerLink.visibleProperty().bind(pmsBtn.visibleProperty())
-
-        opiSopLink.visibleProperty().bind(opiBtn?.visibleProperty())
-        smSopLink.visibleProperty().bind(smBtn.visibleProperty())
-        spcSopLink.visibleProperty().bind(spcBtn.visibleProperty())
-        oncallSopLink.visibleProperty().bind(oncallBtn.visibleProperty())
+        if (WiseApplication.haveSubSystem("FINEREPORT")){
+            fineReportVerLink.textProperty().bind(WiseApplication.getSubSystemVersion("FINEREPORT"))
+        }
+        if (WiseApplication.haveSubSystem("ZHLXREPORT")){
+            zhlxReportVerLink.textProperty().bind(WiseApplication.getSubSystemVersion("ZHLXREPORT"))
+        }
+        if (WiseApplication.haveSubSystem("VIDAS")){
+            vidasVerLink.textProperty().bind(WiseApplication.getSubSystemVersion("VIDAS"))
+        }
     }
 
+
+
+    private fun setBtnPropBinding(){
+
+        opiVerLink.visibleProperty().bind(opiBtn.disableProperty().not())
+        smVerLink.visibleProperty().bind(smBtn.disableProperty().not())
+        spcVerLink.visibleProperty().bind(spcBtn.disableProperty().not())
+        oncallVerLink.visibleProperty().bind(oncallBtn.disableProperty().not())
+        cfmVerLink.visibleProperty().bind(cfmBtn.disableProperty().not())
+        reportVerLink.visibleProperty().bind(reportBtn.disableProperty().not())
+        pmsVerLink.visibleProperty().bind(pmsBtn.disableProperty().not())
+        fineReportVerLink.visibleProperty().bind(fineReportBtn.disableProperty().not())
+        zhlxReportVerLink.visibleProperty().bind(zhlxReportBtn.disableProperty().not())
+        vidasVerLink.visibleProperty().bind(vidasBtn.disableProperty().not())
+
+        opiSopLink.visibleProperty().bind(opiBtn.disableProperty().not())
+        smSopLink.visibleProperty().bind(smBtn.disableProperty().not())
+        spcSopLink.visibleProperty().bind(spcBtn.disableProperty().not())
+        oncallSopLink.visibleProperty().bind(oncallBtn.disableProperty().not())
+    }
 
     private fun initNotes(fab: FAB){
         command = SystemCommand.DisplayNoteCommand(5, fab = fab)
@@ -257,7 +312,8 @@ class IndexController: Initializable {
     }
 
     private fun setBtnEvent(){
-        opiBtn?.setOnAction {
+
+        opiBtn.setOnAction {
             command = SystemCommand.OPIStartCommand
             command.execute()
         }
@@ -291,6 +347,21 @@ class IndexController: Initializable {
             command = SystemCommand.PMSStartCommand
             command.execute()
         }
+
+        fineReportBtn.setOnAction {
+            command = SystemCommand.FineReportStartCommand
+            command.execute()
+        }
+
+        zhlxReportBtn.setOnAction {
+            command = SystemCommand.ZHLXReportStartCommand
+            command.execute()
+        }
+
+        vidasBtn.setOnAction {
+            command = SystemCommand.VIDASStartCommand
+            command.execute()
+        }
     }
 
 
@@ -322,13 +393,16 @@ class IndexController: Initializable {
 
     private fun updateBtnState(){
 
-        smBtn.isVisible = WiseApplication.haveSubSystem("SM")
-        opiBtn?.isVisible = WiseApplication.haveSubSystem("OPI")
-        spcBtn.isVisible = WiseApplication.haveSubSystem("SPC")
-        oncallBtn.isVisible = WiseApplication.haveSubSystem("ONCALL")
-        cfmBtn.isVisible = WiseApplication.haveSubSystem("CFM")
-        reportBtn.isVisible = WiseApplication.haveSubSystem("REPORT")
-        pmsBtn.isVisible = WiseApplication.haveSubSystem("PMS")
+        smBtn.isDisable = !WiseApplication.haveSubSystem("SM")
+        opiBtn.isDisable = !WiseApplication.haveSubSystem("OPI")
+        spcBtn.isDisable = !WiseApplication.haveSubSystem("SPC")
+        oncallBtn.isDisable = !WiseApplication.haveSubSystem("ONCALL")
+        cfmBtn.isDisable = !WiseApplication.haveSubSystem("CFM")
+        reportBtn.isDisable = !WiseApplication.haveSubSystem("REPORT")
+        pmsBtn.isDisable = !WiseApplication.haveSubSystem("PMS")
+        vidasBtn.isDisable = !WiseApplication.haveSubSystem("VIDAS")
+        fineReportBtn.isDisable = !WiseApplication.haveSubSystem("FINEREPORT")
+        zhlxReportBtn.isDisable = !WiseApplication.haveSubSystem("ZHLXREPORT")
     }
 
     private fun setCheckBtnEvent(){
@@ -387,10 +461,8 @@ class IndexController: Initializable {
     private fun setNotesBtnEvent(){
         notesBtn.setOnAction {
             // 切换场景
-//            val stage = notesBtn.scene.window as Stage
-//            stage.hide()
-//            stage.close()
-            RouteUtil.load("ui/FABNoteView.fxml", "发布公告", false)
+            val stage = notesBtn.scene.window as Stage
+            RouteUtil.load(stage,"ui/FABNoteView.fxml", "发布公告", false)
         }
     }
 

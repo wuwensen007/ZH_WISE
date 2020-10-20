@@ -26,15 +26,19 @@ class SystemInitHelper: Task<Void>() {
 
     private val logger = LoggerFactory.getLogger(SystemInitHelper::class.java)
 
-    fun whetherToInitialize(): Boolean {
-        // 登录
-        val file = File(Constant.LOCAL_WISE_BASE_PATH)
-        if (!file.exists()){
-            file.mkdirs()
-            return false
+    companion object{
+        fun whetherToInitialize(): Boolean {
+            // 登录
+            val file = File(Constant.LOCAL_WISE_BASE_PATH)
+            if (!file.exists()){
+                file.mkdirs()
+                return true
+            }
+            return file.listFiles().isEmpty()
         }
-        return file.listFiles().isEmpty()
     }
+
+
 
     fun initLocalSystem(){
         downloadFiles(fromPath = Constant.BASEPATH, toPath = Constant.LOCAL_WISE_BASE_PATH)

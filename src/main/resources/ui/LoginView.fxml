@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXRadioButton?>
@@ -21,7 +22,7 @@
 
 <AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="617.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wise.controller.LoginController">
    <children>
-         <VBox layoutX="309.0" layoutY="190.0" prefHeight="276.0" prefWidth="651.0" spacing="50.0">
+         <VBox layoutX="309.0" layoutY="190.0" prefHeight="276.0" prefWidth="651.0" spacing="35.0">
             <children>
                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                   <children>
@@ -33,7 +34,7 @@
                         <Font size="24.0" />
                      </font>
                      </Label>
-                     <JFXTextField fx:id="useridTf" labelFloat="true" prefHeight="48.0" prefWidth="200.0" promptText="%userPromptText">
+                     <JFXTextField fx:id="useridTf" labelFloat="true" prefHeight="48.0" prefWidth="240.0" promptText="%userPromptText">
                      <font>
                         <Font size="24.0" />
                      </font></JFXTextField>
@@ -49,10 +50,11 @@
                         <Font size="24.0" />
                      </font>
                      </Label>
-                     <JFXPasswordField fx:id="pwdTf" labelFloat="true" prefHeight="48.0" prefWidth="200.0" promptText="%pwdPromptText">
+                  <JFXPasswordField fx:id="pwdTf" labelFloat="true" prefHeight="48.0" prefWidth="240.0" promptText="%pwdPromptText">
                      <font>
                         <Font size="24.0" />
-                     </font></JFXPasswordField>
+                     </font>
+                  </JFXPasswordField>
                   </children>
                </HBox>
                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -65,7 +67,7 @@
                         <MaterialDesignIconView glyphName="SELECT" size="24" />
                      </graphic>
                   </Label>
-                     <JFXComboBox fx:id="langComboBox" labelFloat="true" prefHeight="48.0" prefWidth="200.0" promptText="%langPromptText" />
+                     <JFXComboBox fx:id="langComboBox" labelFloat="true" prefHeight="32.0" prefWidth="240.0" promptText="%langPromptText" />
                   </children>
                </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -96,6 +98,20 @@
                         <Font size="18.0" />
                      </font>
                   </JFXRadioButton>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="651.0" spacing="70.0">
+               <children>
+                  <JFXCheckBox fx:id="remPwdCheckBox" text="记住密码">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXCheckBox>
+                  <JFXCheckBox fx:id="autoLoginCheckBox" text="自动登录">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXCheckBox>
                </children>
             </HBox>
                <ButtonBar prefHeight="33.0" prefWidth="507.0">

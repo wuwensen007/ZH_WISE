@@ -78,13 +78,31 @@ sealed class SystemCommand: Command {
         }
     }
 
-    // REPORT启动命令
+    // PMS启动命令
     object PMSStartCommand : SystemCommand() {
         override fun execute() {
             WiseApplication.runSubSystem("PMS")
         }
     }
 
+
+    object FineReportStartCommand : SystemCommand() {
+        override fun execute() {
+            WiseApplication.runSubSystem("FINEREPORT")
+        }
+    }
+
+    object ZHLXReportStartCommand : SystemCommand() {
+        override fun execute() {
+            WiseApplication.runSubSystem("ZHLXREPORT")
+        }
+    }
+
+    object VIDASStartCommand : SystemCommand() {
+        override fun execute() {
+            WiseApplication.runSubSystem("VIDAS")
+        }
+    }
 
     object NoCommand: SystemCommand(){
         override fun execute(){}
